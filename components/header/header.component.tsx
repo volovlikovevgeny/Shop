@@ -7,10 +7,15 @@ import { connect } from 'react-redux';
 import { auth } from '../../utils/firebase';
 
 import { toggleCartHidden } from '../../redux/cart/cart.actions';
+import CartDropdown from '../cart-dropdown/cart-dropdown.component';
+import CartIcon from '../cart-icon/cart-icon.component';
 
+type Header = {
+    currentUser?:any,
+    hidden:boolean
+}
 
-
-const Header = ({ currentUser, toggleCartHidden }): ReactElement => {
+const Header = ({ currentUser, hidden}:Header): ReactElement => {
     return (
         <div className={styles.header}>
             <div className={styles.logo_container}>
@@ -19,7 +24,6 @@ const Header = ({ currentUser, toggleCartHidden }): ReactElement => {
                 </Link>
             </div>
             <div className={styles.menu}>
-                <SearchField />
                 <Link href='/shop'><a className={styles.menu_item}>Shop</a></Link>
                 <Link href='/'><a className={styles.menu_item}>Contact</a></Link>
                 {
@@ -30,9 +34,11 @@ const Header = ({ currentUser, toggleCartHidden }): ReactElement => {
                         <Link href='/auth'><a className={styles.menu_item}>Sign In</a></Link>
                 }
 
-                <button onClick={() => toggleCartHidden()}>Svg Icon</button>
-
+                <CartIcon   />
             </div>
+            {
+                hidden ? null :  <CartDropdown />
+            }
         </div>
     );
 };
@@ -45,7 +51,5 @@ const mapStateToProps = ({ user, cart }) => ({
 const mapDispatchToProps = (dispatch) => ({
     toggleCartHidden: () => dispatch(toggleCartHidden()),
 });
-
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

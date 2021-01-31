@@ -5,7 +5,7 @@ import { SignInWithGoogle } from '../../utils/firebase';
 import { auth } from '../../utils/firebase';
 import { SetcurrentUser } from '../../redux/user/user.actions';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { AnyAction, bindActionCreators, Dispatch } from 'redux';
 import styles from './sign-in.module.scss';
 
 
@@ -27,13 +27,12 @@ class SignIn extends React.Component<SignInProps, SignInState> {
         this.state = {
             email: '',
             password: '',
-            currentUser: '',
+            currentUser: null,
         };
     }
 
 
     unsubscribeFromAuth: any = null;
-
 
     componentDidMount(): void {
 
@@ -94,12 +93,12 @@ class SignIn extends React.Component<SignInProps, SignInState> {
     }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({
     userAuth: bindActionCreators(SetcurrentUser, dispatch),
     // (user) => dispatch(SetcurrentUser(user)),
 });
 
 
 
-export default connect(null,mapDispatchToProps)(SignIn);
+export default connect(null, mapDispatchToProps)(SignIn);
 
