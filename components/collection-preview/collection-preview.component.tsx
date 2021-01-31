@@ -23,9 +23,9 @@ const CollectionPreview = ({ items, title, routeName }: collectionPreview): Reac
                 {
                     items
                         .filter((item, idx) => idx < 4)
-                        .map(({ id, ...otherItemProps }) => (
+                        .map(item => (
 
-                            <CollectionItem routeName={routeName} key={id} {...otherItemProps} />
+                            <CollectionItem key={item.id} item={item} />
                         ))
                 }
             </div>
