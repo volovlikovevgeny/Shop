@@ -1,10 +1,18 @@
+import { AnyAction } from 'redux';
 import { CartActionTypes } from './cart.types';
 
-export const toggleCartHidden = () => ({
+export const toggleCartHidden = (): AnyAction => ({
     type: CartActionTypes.TOGGLE_CART_HIDDEN,
 });
 
-export const addItem = item => ({
+interface itemType {
+    imageUrl: string,
+    name: string,
+    price: number,
+    routeName: string | undefined,
+}
+
+export const addItem = (item: itemType): AnyAction => ({
     type: CartActionTypes.ADD_ITEM,
     payload: item,
 });

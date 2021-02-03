@@ -6,25 +6,17 @@ type ButtonProps = {
   type?: 'submit',
   children: React.ReactNode,
   isGoogleSignIn?: boolean,
-  inverted?: string | undefined | boolean,
+  inverted?: boolean,
   onClick?: () => void
 }
 
-const CustomButton = ({
-  children,
-  isGoogleSignIn,
-  inverted,
-  ...otherProps
-}: ButtonProps): ReactElement => {
-  return (
-    <button
-      className={`${inverted ? styles.inverted : ''} ${isGoogleSignIn ? styles.googlesignin : ''
-        } ${styles.custom_button}`}
-      {...otherProps}
-    >
-      {children}
-    </button>
-  );
-};
+const CustomButton = ({ children, isGoogleSignIn, ...otherProps }: ButtonProps): ReactElement => (
+  <button
+    className={`${isGoogleSignIn ? `${styles.google_sign_in}` : ''}  ${styles.custom_button}  `}
+    {...otherProps}
+  >
+    {children}
+  </button>
+);
 
 export default CustomButton;

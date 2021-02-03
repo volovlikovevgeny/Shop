@@ -1,12 +1,15 @@
 import React, { FC, useState, useEffect } from 'react';
-import {wrapper} from '../redux/store';
 import { AppProps } from 'next/app';
 import Router from 'next/router';
 import LoadingSpinner from '../components/loading/loading.component';
 import Layout from '../components/Layout/layout.component';
 
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from '../redux/store';
+
 
 import '../global/style.scss';
+import { Provider } from 'react-redux';
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -32,22 +35,22 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
         };
     }, []);
 
-
-
     return (
-        <>
-            {
-                loading
-                    ?
-                    <LoadingSpinner />
-                    :
-                    <Layout title={'E-commerce platform'}>
-                        <Component {...pageProps} />
-                    </Layout>
-            }
-        </>
+        <Provider store={store}>
+            <PersistGate persistor={persistor}>
+                {
+                    loading
+                        ?
+                        <LoadingSpinner />
+                        :
+                        <Layout title={'E-commerce platform'}>
+                            <Component {...pageProps} />
+                        </Layout>
+                }
+            </PersistGate>
+        </Provider>
     );
 
 };
 
-export default wrapper.withRedux(MyApp);
+export default MyApp;

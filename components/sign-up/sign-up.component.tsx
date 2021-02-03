@@ -1,99 +1,92 @@
-import React, { FormEvent, ChangeEvent } from 'react';
+import React, { FormEvent, ChangeEvent, useState, ReactElement } from 'react';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
+
 import styles from './sign-up.module.scss';
 
-type SignInProps = {
-    email?: string,
-    password?: string
-}
 
-type SignInState = {
+
+type SignUp = {
+    name: string,
     email: string,
-    password: string,
-    [name: string]: string;
+    password: string
 }
 
-class SignUp extends React.Component<SignInProps, SignInState> {
-    constructor(props: SignInProps | Readonly<SignInProps>) {
-        super(props);
-
-        this.state = {
-            name: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
-        };
-    }
 
 
-    handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
-        event.preventDefault();
 
-        const { displayName, email, password, confirmPassword } = this.state;
 
-        if (password !== confirmPassword) {
-            alert('Password don`t match');
-        }
+const SignUp = (): ReactElement => {
+
+    const [formData, setFormData] = useState({ name: '', email: '', password: '', confirmPassword: '' });
+
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+
+        const { name, value } = event.target;
+
+        setFormData({ ...formData, [name]: value });
+
+        console.log(formData);
+
     };
 
-    private handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const { value, name } = event.target;
 
-        this.setState({ [name]: value });
-    }
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>): Promise<void> => {
+        event.preventDefault();
 
-    render(): JSX.Element {
-        
-        const { name, email, password, confirmPassword } = this.state;
+    };
+
+    const { name, email, password, confirmPassword } = formData;
+
+    return (
+        <div className={styles.sign_up}>
+            <form onSubmit={handleSubmit}>
+
+                <FormInput
+                    name="name"
+                    type="name"
+                    handleChange={handleChange}
+                    value={name}
+                    label={'DisplayName'}
+                    required
+                />
+
+                <FormInput
+                    name="email"
+                    type="email"
+                    handleChange={handleChange}
+                    value={email}
+                    label={'Email'}
+                    required
+                />
+                <FormInput
+                    name='password'
+                    type="password"
+                    handleChange={handleChange}
+                    value={password}
+                    label={'Password'}
+                    required
+                />
+
+                <FormInput
+                    name='confirmPassword'
+                    type="password"
+                    handleChange={handleChange}
+                    value={confirmPassword}
+                    label={'Confirm Password'}
+                    required
+                />
+                <div className={styles.buttons}>
+                    <CustomButton type='submit'>Sign In</CustomButton>
+                </div>
+            </form>
+        </div>
+    );
+};
 
 
-        console.log(this.state);
 
-        return (
-
-            <div className={styles.sign_up}>
-                <h2>I don`t have an account</h2>
-                <span>Sign up with your email and password</span>
-
-                <form onSubmit={this.handleSubmit}>
-                    <FormInput
-                        name="name"
-                        type="name"
-                        handleChange={this.handleChange}
-                        value={name}
-                        label={'Name'}
-                        required
-                    />
-                    <FormInput
-                        name="email"
-                        type="email"
-                        handleChange={this.handleChange}
-                        value={email}
-                        label={'Email'}
-                        required
-                    />
-                    <FormInput
-                        name='password'
-                        type="password"
-                        handleChange={this.handleChange}
-                        value={password}
-                        label={'Password'}
-                        required
-                    />
-                    <FormInput
-                        name='confirmPassword'
-                        type="password"
-                        handleChange={this.handleChange}
-                        value={confirmPassword}
-                        label={'Confirm password'}
-                        required
-                    />
-                    <CustomButton type='submit'>Sign Up</CustomButton>
-                </form>
-            </div>
-        );
-    }
-}
 
 export default SignUp;
+

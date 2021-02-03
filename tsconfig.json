@@ -22,7 +22,7 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
-, "assets/logo.js", "assets/shop-bag.js"  ],
+, "public/logo.js", "public/shop-bag.js"  ],
   "exclude": [
     "node_modules"
   ]

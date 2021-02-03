@@ -1,21 +1,21 @@
 import React, { ReactElement } from 'react';
 import Link from 'next/link';
-import Logo from '../../assets/logo';
-import SearchField from '../searchfield/searchfield.component';
-import styles from './header.module.scss';
+import Logo from '../../public/logo';
 import { connect } from 'react-redux';
-import { auth } from '../../utils/firebase';
-
 import { toggleCartHidden } from '../../redux/cart/cart.actions';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
-import CartIcon from '../cart-icon/cart-icon.component';
+import { setCurrentUser } from '../../redux/user/user.actions';
+import ShopIcon from '../cart-icon/cart-icon.component';
+import styles from './header.module.scss';
+
 
 type Header = {
-    currentUser?:any,
-    hidden:boolean
+    currentUser?:() =>void,
+    hidden: boolean,
+    userSingOut: () => void
 }
 
-const Header = ({ currentUser, hidden}:Header): ReactElement => {
+const Header = ({ currentUser, hidden, userSingOut }: Header): ReactElement => {
     return (
         <div className={styles.header}>
             <div className={styles.logo_container}>
@@ -27,29 +27,30 @@ const Header = ({ currentUser, hidden}:Header): ReactElement => {
                 <Link href='/shop'><a className={styles.menu_item}>Shop</a></Link>
                 <Link href='/'><a className={styles.menu_item}>Contact</a></Link>
                 {
-                    currentUser
+                    currentUser != null
                         ?
-                        <Link href='/auth'><a onClick={() => auth.signOut()} className={styles.menu_item}>Sign out</a></Link>
+                        <span onClick={() => userSingOut()} className={styles.menu_item}>Sign out</span>
                         :
                         <Link href='/auth'><a className={styles.menu_item}>Sign In</a></Link>
                 }
-
-                <CartIcon   />
+                <ShopIcon />
             </div>
             {
-                hidden ? null :  <CartDropdown />
+                hidden ? null : <CartDropdown />
             }
         </div>
     );
 };
 
-const mapStateToProps = ({ user, cart }) => ({
-    currentUser: user.currentUser,
+const mapStateToProps = ({ cart, user }) => ({
     hidden: cart.hidden,
+    currentUser: user.currentUser,
 });
+
 
 const mapDispatchToProps = (dispatch) => ({
     toggleCartHidden: () => dispatch(toggleCartHidden()),
+    userSingOut: () => dispatch(setCurrentUser(null)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

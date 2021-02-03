@@ -1,10 +1,10 @@
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
-import { FC } from 'react';
+import 'firebase/auth';
+import 'firebase/storage';
 
-
-const config = {
+const firebaseConfig = {
     apiKey: "AIzaSyD9sw-ihS_brvAuVDE_QXF5Sh4k2AhuC8M",
     authDomain: "next-js-typescript.firebaseapp.com",
     projectId: "next-js-typescript",
@@ -14,15 +14,22 @@ const config = {
 };
 
 if (!firebase.apps.length) {
-    firebase.initializeApp(config);
+    firebase.initializeApp(firebaseConfig);
 } else {
     firebase.app();
 }
 
-export const auth = firebase.auth();
-export const firestore = firebase.firestore();
+const app = firebase.app();
+const auth = firebase.auth();
+const db = firebase.firestore();
+const now = firebase.firestore.Timestamp.now();
+const storage = firebase.storage();
 
-// Google Authentication
-const provider = new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({ prompt: 'select_account' });
-export const SignInWithGoogle = ():Promise<firebase.auth.UserCredential> => auth.signInWithPopup(provider);
+export { auth, db, now, storage };
+
+console.log(app.name ? 'Firebase modal Activated!' : 'Firebase not working');
+
+
+
+
+

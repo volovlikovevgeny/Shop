@@ -1,12 +1,19 @@
 import React, { ReactElement } from 'react';
 
-const SearchField = (): ReactElement => {
+type searchType = {
+    otherProps: {
+        className: string
+    }
+}
+
+const SearchField = ({ otherProps }: searchType): ReactElement => {
     return (
-        <div>
-            <input type="text"/>
-        </div>
+
+        <input type="text"
+            placeholder={'Choose'}
+            {...otherProps}
+        />
     );
 };
 
 export default SearchField;
-
