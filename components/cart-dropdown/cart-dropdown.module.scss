@@ -1,4 +1,4 @@
-.cart_dropdown{
+.cart_dropdown {
     position: absolute;
     width: 240px;
     height: 340px;
@@ -9,7 +9,30 @@
     top: 70px;
     right: 40px;
     z-index: 5;
-    overflow: scroll;
+    overflow-y: scroll;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+    .empty_message {
+        font-size: 30px;
+        margin: 50px auto;
+    }
+
+    .button{
+        display: flex;
+        justify-content: center;
+
+        button{
+            margin-bottom: 20px;
+        }
+    }
+
+    .cart_items{
+        height: 240px;
+        display: flex;
+        flex-direction: column;
+    }
 }
+
+
+

@@ -16,3 +16,13 @@ export const addItem = (item: itemType): AnyAction => ({
     type: CartActionTypes.ADD_ITEM,
     payload: item,
 });
+
+export const removeItem = (item: itemType): AnyAction => ({
+    type: CartActionTypes.REMOVE_ITEM,
+    payload: item,
+});
+
+export const clearItemFromCart = (item: itemType): AnyAction => ({
+    type: CartActionTypes.CLEAR_ITEM_CART,
+    payload: item,
+});

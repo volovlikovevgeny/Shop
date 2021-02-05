@@ -4,17 +4,11 @@ import CustomButton from '../custom-button/custom-button.component';
 
 import styles from './sign-up.module.scss';
 
-
-
 type SignUp = {
     name: string,
     email: string,
     password: string
 }
-
-
-
-
 
 const SignUp = (): ReactElement => {
 
@@ -41,6 +35,7 @@ const SignUp = (): ReactElement => {
 
     return (
         <div className={styles.sign_up}>
+            <h2>Sign Up</h2>
             <form onSubmit={handleSubmit}>
 
                 <FormInput
@@ -79,6 +74,7 @@ const SignUp = (): ReactElement => {
                 />
                 <div className={styles.buttons}>
                     <CustomButton type='submit'>Sign In</CustomButton>
+                    <CustomButton isGoogleSignIn >Google</CustomButton>
                 </div>
             </form>
         </div>

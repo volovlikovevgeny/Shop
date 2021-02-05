@@ -1,5 +1,14 @@
 .sign_up {
-    display: flex;
-    flex-direction: column;
-    width: 380px;
+  display: flex;
+  flex-direction: column;
+  width: 390px;
+
+  @media screen and(max-width:768px){
+    margin-top: 25px;
   }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+}

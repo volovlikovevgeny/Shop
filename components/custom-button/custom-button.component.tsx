@@ -6,7 +6,7 @@ type ButtonProps = {
   type?: 'submit',
   children: React.ReactNode,
   isGoogleSignIn?: boolean,
-  inverted?: boolean,
+  // inverted?:true|fal,
   onClick?: () => void
 }
 

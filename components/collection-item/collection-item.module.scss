@@ -15,12 +15,27 @@
   }
 
   .custom_button {
-
+    padding: 0;
     opacity: 0.7;
     position: absolute;
-    top: 255px;
+    top: 265px;
+    display: flex;
+    justify-content: space-between;
 
+    button {
+      min-width: 80px;
 
+      &:nth-child(even){
+        margin-left: 5px;
+        background-color: white;
+        color: black;
+
+        &:hover{
+          background-color: black;
+          color: white;
+        }
+      }
+    }
   }
 
   &:hover {
@@ -48,8 +63,6 @@
 
     .price {
       width: 17%;
-
     }
   }
 }
-

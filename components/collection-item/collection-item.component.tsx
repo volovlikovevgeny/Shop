@@ -1,19 +1,33 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { connect } from 'react-redux';
+import { AnyAction } from 'redux';
 import { addItem } from '../../redux/cart/cart.actions';
 import CustomButton from '../custom-button/custom-button.component';
+import Modal from '../modal/modal.component';
+
 import styles from './collection-item.module.scss';
 
 
 type CollectionItems = {
-    imageUrl: string,
-    name: string,
-    price: number,
-    routeName: string | undefined,
+    item: {
+        imageUrl: string,
+        name: string,
+        price: number,
+        routeName: string | undefined,
+    }
+
+    addItem: (item: CollectionItems) => void
 }
 
 const CollectionItem = ({ item, addItem }: CollectionItems): ReactElement => {
     const { imageUrl, price, name } = item;
+
+    const [modal, openModal] = useState(false);
+
+
+    const changeModal = () => {
+        openModal(!modal);
+    };
 
     return (
         <div className={styles.collection_item}>
@@ -27,15 +41,22 @@ const CollectionItem = ({ item, addItem }: CollectionItems): ReactElement => {
                 <div className={styles.price}>${price}</div>
             </div>
             <div className={styles.custom_button}>
-                <CustomButton onClick={() => addItem(item)} inverted>Add to Cart</CustomButton>
+                <CustomButton onClick={() => addItem(item)}>Add to Cart</CustomButton>
+                <CustomButton onClick={changeModal}>
+                    See More
+                </CustomButton>
+
             </div>
+            {
+                modal === true ? <Modal item={item}>{JSON.stringify(item)}</Modal> : null
+            }
         </div>
     );
 };
 
 
-const mapDispatchToProps = (dispatch) => ({
-    addItem: item => dispatch(addItem(item)),
+const mapDispatchToProps = (dispatch: (arg0: AnyAction) => void) => ({
+    addItem: (item) => dispatch(addItem(item)),
 });
 
-export default connect(null,mapDispatchToProps)(CollectionItem);
+export default connect(null, mapDispatchToProps)(CollectionItem);

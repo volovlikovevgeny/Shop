@@ -6,10 +6,11 @@ import Layout from '../components/Layout/layout.component';
 
 import { PersistGate } from 'redux-persist/integration/react';
 import { store, persistor } from '../redux/store';
+import { Provider } from 'react-redux';
+import { createWrapper } from 'next-redux-wrapper';
 
 
 import '../global/style.scss';
-import { Provider } from 'react-redux';
 
 const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
     const [loading, setLoading] = useState<boolean>(false);
@@ -38,19 +39,26 @@ const MyApp: FC<AppProps> = ({ Component, pageProps }: AppProps) => {
     return (
         <Provider store={store}>
             <PersistGate persistor={persistor}>
-                {
-                    loading
-                        ?
-                        <LoadingSpinner />
-                        :
-                        <Layout title={'E-commerce platform'}>
+                <Layout title={'E-commerce platform'}>
+                    {
+                        loading
+                            ?
+                            <LoadingSpinner />
+                            :
                             <Component {...pageProps} />
-                        </Layout>
-                }
+                    }
+                </Layout>
             </PersistGate>
         </Provider>
     );
 
 };
 
-export default MyApp;
+
+
+
+const makeStore = () => store;
+const wrapper = createWrapper(makeStore);
+
+
+export default wrapper.withRedux(MyApp);

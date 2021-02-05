@@ -4,8 +4,8 @@ import CustomButton from '../custom-button/custom-button.component';
 import { setCurrentUser } from '../../redux/user/user.actions';
 
 import styles from './sign-in.module.scss';
-import { connect } from 'react-redux';
 import { AppProps } from 'next/dist/next-server/lib/router/router';
+import { connect } from 'react-redux';
 
 
 const SignIn = ({ CurrentUser }: AppProps): ReactElement => {
@@ -30,6 +30,7 @@ const SignIn = ({ CurrentUser }: AppProps): ReactElement => {
 
     return (
         <div className={styles.sign_in}>
+            <h2>Sign in with Email and Password</h2>
             <form onSubmit={handleSubmit}>
                 <FormInput
                     name="email"
@@ -49,7 +50,6 @@ const SignIn = ({ CurrentUser }: AppProps): ReactElement => {
                 />
                 <div className={styles.buttons}>
                     <CustomButton type='submit'>Sign In</CustomButton>
-                    <CustomButton isGoogleSignIn >Google</CustomButton>
                 </div>
             </form>
         </div>

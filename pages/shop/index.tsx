@@ -1,32 +1,36 @@
-import { GetServerSideProps } from 'next';
-import { AppProps } from 'next/dist/next-server/lib/router/router';
-import React, { ReactElement, useState, useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { ReactElement, useEffect } from 'react';
 import CollectionPreview from '../../components/collection-preview/collection-preview.component';
+import { connect, useDispatch } from 'react-redux';
+import { fetchShopData } from '../../redux/shop/shop.action';
 
 type CollectionData = {
-    id: number;
-    title: string;
-    routeName: string;
-    items: {
+    collection: {
         id: number;
-        name: string;
-        imageUrl: string;
-        price: number;
-    }[];
+        title: string;
+        routeName: string;
+        items: {
+            id: number;
+            name: string;
+            imageUrl: string;
+            price: number;
+        }[];
+    }
 }
 
-const ShopPage = ({ShopCollections}:AppProps): ReactElement => {
-    const [collections, setCollection] = useState<CollectionData[]>([]);
+const ShopPage = ({ collection }: CollectionData): ReactElement => {
+
+
+    const dispatch = useDispatch();
+
 
     useEffect(() => {
-        setCollection(ShopCollections);
+        dispatch(fetchShopData());
     }, []);
 
     return (
         <React.Fragment>
             {
-                collections.map(({ id, ...otherCollectionProps }) => (
+                collection.map(({ id, ...otherCollectionProps }) => (
                     <CollectionPreview key={id} {...otherCollectionProps} />
                 ))
             }
@@ -34,19 +38,23 @@ const ShopPage = ({ShopCollections}:AppProps): ReactElement => {
     );
 };
 
-export default connect()(ShopPage);
+const mapStateToProps = ({ shop }) => ({
+    collection: shop.collection,
+});
+
+export default connect(mapStateToProps)(ShopPage);
 
 
-export const getServerSideProps: GetServerSideProps = async () => {
-    const response = await fetch('http://localhost:4001/shopcollection');
-    const ShopCollections = await response.json();
+// export const getServerSideProps: GetServerSideProps = async () => {
+//     const response = await fetch('http://localhost:4001/shopcollection');
+//     const ShopCollections = await response.json();
 
-    return {
-        props: {
-            ShopCollections,
-        },
-    };
-};
+//     return {
+//         props: {
+//             ShopCollections,
+//         },
+//     };
+// };
 
 
 

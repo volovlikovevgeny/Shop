@@ -1,12 +1,17 @@
 import React, { ReactElement, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import SignIn from '../../components/sign-in/sign-in.component';
 import SignUp from '../../components/sign-up/sign-up.component';
-
 import styles from './auth.module.scss';
 
-const SignInAndSignUp = ({ redirect }): ReactElement => {
+import { connect } from 'react-redux';
+import { selectCurrentUser } from '../../redux/user/user.selector';
+import { createStructuredSelector } from 'reselect';
+import { AppProps } from 'next/dist/next-server/lib/router/router';
+
+
+
+const SignInAndSignUp = ({ redirect }: AppProps): ReactElement => {
 
     const router = useRouter();
 
@@ -23,8 +28,8 @@ const SignInAndSignUp = ({ redirect }): ReactElement => {
 };
 
 
-const mapStateToProps = ({ user }) => ({
-    redirect: user.currentUser,
+const mapStateToProps = createStructuredSelector({
+    redirect: selectCurrentUser,
 });
 
 
